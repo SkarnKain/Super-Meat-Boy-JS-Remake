@@ -5,16 +5,17 @@ function Player() {
     this.pos = createVector(width / 2, height - this.h / 2);
     this.vel = createVector(0, 0);
     this.applied_forces = gravity.copy();
-    this.jump = false;
+    this.jumped = false;
+    this.isjumping = false;
     this.right = false;
     this.left = false;
     //
     //
     //
     this.update = function () {
-        if (this.jump) {
+        if (this.jumped) {
             player.applied_forces.y += -5;
-            this.jump = false;
+            this.jumped = false;
         }
         if (this.right) {
             player.applied_forces.x += 0.5;
@@ -38,6 +39,7 @@ function Player() {
         if (this.pos.y > height - this.h / 2) {
             this.pos.y = height - this.h / 2;
             this.vel.y = 0;
+            this.isjumping = false;
         }
     }
 }

@@ -8,8 +8,9 @@ function keyReleased() {
 }
 
 function keyPressed() {
-    if (key == " ") {
-        player.jump = true;
+    if (key == " " && !player.isjumping) {
+        player.jumped = true;
+        player.isjumping = true;
     }
     else if (keyCode == RIGHT_ARROW) {
         player.right = true;
