@@ -59,22 +59,47 @@ function Player() {
         }
     }
     this.hits_obs = function (obstacle) {
-        if (this.pos.x + this.w / 2 >= obstacle.pos.x - obstacle.w / 2 && this.pos.x - this.w / 2 <= obstacle.pos.x + obstacle.w / 2) {
-            if (this.pos.y + this.w / 2 >= obstacle.pos.y - obstacle.h / 2 && this.pos.y - this.w / 2 <= obstacle.pos.y + obstacle.h / 2) {
-                this.pos.y -= this.vel.y;
-                this.vel.y = 0;
-                this.applied_forces.y *= -1;
-                console.log("XXX");
-                var fut_x = this.pos.x + this.vel.x;
-                var fut_y = this.pos.y + this.vel.y;
-                if (fut_x + this.w / 2 >= obstacle.pos.x - obstacle.w / 2 && fut_x - this.w / 2 <= obstacle.pos.x + obstacle.w / 2) {
-                    if (fut_y + this.w / 2 >= obstacle.pos.y - obstacle.h / 2 && fut_y - this.w / 2 <= obstacle.pos.y + obstacle.h / 2) {
-                        this.applied_forces.y *= -1;
-                        this.vel.x = 0;
-                        this.applied_forces.x *= -1;
+            var temp_w = 0.5 * (this.w + obstacle.w);
+            var temp_h = 0.5 * (this.h + obstacle.h);
+            var temp_dx = this.pos.x - obstacle.pos.x;
+            var temp_dy = this.pos.y - obstacle.pos.y;
+            if (abs(temp_dx) <= temp_w && abs(temp_dy) <= temp_h) {
+                // collision!
+                var temp_wy = temp_w * temp_dy;
+                var temp_hx = temp_h * temp_dx;
+                if (temp_wy > temp_hx) {
+                    if (temp_wy > -temp_hx) {
+                        console.log("at the top");
+                    }
+                }
+                else {
+                    console.log("on the left");
+                }
+                else {
+                    if (temp_wy > -temp_hx) {
+                        console.log("on the right");
+                    }
+                    else {
+                        console.log("at the bottom");
                     }
                 }
             }
         }
-    }
+        //    if (this.pos.x + this.w / 2 >= obstacle.pos.x - obstacle.w / 2 && this.pos.x - this.w / 2 <= obstacle.pos.x + obstacle.w / 2) {
+        //        if (this.pos.y + this.w / 2 >= obstacle.pos.y - obstacle.h / 2 && this.pos.y - this.w / 2 <= obstacle.pos.y + obstacle.h / 2) {
+        //            this.pos.y -= this.vel.y;
+        //            this.vel.y = 0;
+        //            this.applied_forces.y *= -1;
+        //            console.log("XXX");
+        //            var fut_x = this.pos.x + this.vel.x;
+        //            var fut_y = this.pos.y + this.vel.y;
+        //            if (fut_x + this.w / 2 >= obstacle.pos.x - obstacle.w / 2 && fut_x - this.w / 2 <= obstacle.pos.x + obstacle.w / 2) {
+        //                if (fut_y + this.w / 2 >= obstacle.pos.y - obstacle.h / 2 && fut_y - this.w / 2 <= obstacle.pos.y + obstacle.h / 2) {
+        //                    this.applied_forces.y *= -1;
+        //                    this.vel.x = 0;
+        //                    this.applied_forces.x *= -1;
+        //                }
+        //            }
+        //        }
+        //    }
 }
