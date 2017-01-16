@@ -8,6 +8,7 @@ function Player() {
     this.vel = createVector(0, 0);
     this.applied_forces = gravity.copy();
     this.jumped = false;
+    this.isonground = false;
     this.isjumping = false;
     this.isglidingL = false;
     this.isglidingR = false;
@@ -21,7 +22,6 @@ function Player() {
     //
     this.update = function () {
         if (this.jumped) {
-            console.log(jump_pression);
             if (!this.isjumping && !this.isglidingL && !this.isglidingR) {
                 this.vel.y = 0;
                 this.applied_forces.y += -gravity.y * 4 * jump_pression;
@@ -52,7 +52,7 @@ function Player() {
             var h_friction = 0.9;
         }
         else {
-            var h_friction = 0.91;
+            var h_friction = 0.98;
         }
         this.vel.add(this.applied_forces);
         if (!this.isglidingL & !this.isglidingR) {
@@ -60,7 +60,7 @@ function Player() {
         }
         else {
             if (this.vel.y <= 0) {
-                var v_friction = 0.98;
+                var v_friction = 0.95;
             }
             else {
                 var v_friction = 0.7;
@@ -98,6 +98,7 @@ function Player() {
             this.pos.y = lgh - this.h / 2;
             this.vel.y = 0;
             this.isjumping = false;
+            this.isonground = true;
         }
         else {
             lga = 0;
@@ -110,7 +111,11 @@ function Player() {
         var temp_dy = this.pos.y - obstacle.pos.y;
         if (abs(temp_dx) <= temp_w && abs(temp_dy) <= temp_h) {
             // collision!
-            if (obstacle.kz) {
+            if (obstacle.type == "bg") {
+                console.log("WINNER !!!!!");
+                setup();
+            }
+            if (obstacle.type == "kz") {
                 setup();
             }
             else {
@@ -149,6 +154,7 @@ function Player() {
                             this.pos.y = obstacle.pos.y - obstacle.h / 2 - this.h / 2;
                         }
                         this.isjumping = false;
+                        this.isonground = true;
                     }
                 }
             }
@@ -156,32 +162,83 @@ function Player() {
     }
     this.render = function () {
         push();
-        //        noFill();
-        //        stroke(255);
-        //        rect(this.pos.x, this.pos.y, this.w, this.h); //HIT BOX
+//        noFill();
+//        stroke(255);
+//        rect(this.pos.x, this.pos.y, this.w, this.h); //HIT BOX
+        translate(this.pos.x, this.pos.y);
         fill(255, 0, 0);
         noStroke();
-        rect(this.pos.x, this.pos.y - 2.5, this.w, this.h - 5);
-        rect(this.pos.x - this.w / 2 + 4, this.pos.y + 9, 8, 5);
-        rect(this.pos.x + this.w / 2 - 4, this.pos.y + 9, 8, 5);
-        if (this.right) {
-            rect(this.pos.x - this.w / 2 - 1, this.pos.y + 2, 2, 8);
+        if (this.right && !this.isglidingL && !this.isglidingR && !this.isjumping) { // Running to the right
+            rotate(PI / 16);
+            rect(0, -2.5, this.w, this.h - 5); //body
+            rect(-this.w / 2 + 4, 9, 8, 10); //left leg
+            rect(this.w / 2 - 6, 9, 8, 5); //right leg
+            rect(-this.w / 2 - 1, 2, 2, 8); //arm
             fill(0);
-            rect(this.pos.x - this.w / 2 + 6, this.pos.y - 5, 6, 6);
-            rect(this.pos.x + this.w / 2 - 4, this.pos.y - 5, 6, 6);
+            rect(this.w / 2 - 6, -5, 6, 6); //eye
+            fill(200);
+            rect(this.w / 2 - 4, 2, 8, 3); //mouth
         }
-        else if (this.left) {
-            rect(this.pos.x + this.w / 2 + 1, this.pos.y + 2, 2, 8);
+        else if (this.left && !this.isglidingL && !this.isglidingR && !this.isjumping) { // Running to the left
+            rotate(-PI / 16);
+            rect(0, -2.5, this.w, this.h - 5); //body
+            rect(-this.w / 2 + 6, 9, 8, 5); //left leg
+            rect(this.w / 2 - 4, 9, 8, 10); //right leg
+            rect(this.w / 2 + 1, 2, 2, 8); //arm
             fill(0);
-            rect(this.pos.x - this.w / 2 + 4, this.pos.y - 5, 6, 6);
-            rect(this.pos.x + this.w / 2 - 6, this.pos.y - 5, 6, 6);
+            rect(-this.w / 2 + 6, -5, 6, 6); //eye
+            fill(200);
+            rect(-this.w / 2 + 4, 2, 8, 3); //mouth
+        }
+        else if (this.isglidingL) { // Glinding on the left
+            rect(0, -2.5, this.w, this.h - 5); //body
+            rect(-this.w / 2 + 4, 9, 8, 8); //left leg
+            rect(this.w / 2 - 6, 9, 8, 5); //right leg
+            rect(-this.w / 2 + 4, -this.h / 2, 8, 4); //arm
+            fill(0);
+            rect(this.w / 2 - 6, -5, 6, 6); //eye
+            fill(200);
+            rect(this.w / 2 - 4, 2, 8, 3); //mouth
+        }
+        else if (this.isglidingR) { // Glinding on the right
+            rect(0, -2.5, this.w, this.h - 5); //body
+            rect(-this.w / 2 + 6, 9, 8, 5); //left leg
+            rect(this.w / 2 - 4, 9, 8, 8); //right leg
+            rect(this.w / 2 - 4, -this.h / 2, 8, 4); //arm
+            fill(0);
+            rect(-this.w / 2 + 6, -5, 6, 6); //eye
+            fill(200);
+            rect(-this.w / 2 + 4, 2, 8, 3); //mouth
+        }
+        else if (this.right && this.isjumping) { // Jumping to the right
+            rect(0, -2.5, this.w, this.h - 5); //body
+            rect(-this.w / 2 + 4, 9, 8, 5); //left leg
+            rect(this.w / 2 - 6, 9, 8, 5); //right leg
+            rect(-this.w / 2 - 1, 2, 2, 8); //arm
+            fill(0);
+            rect(this.w / 2 - 6, -5, 6, 6); //eye
+            fill(200);
+            rect(this.w / 2 - 4, 2, 8, 3); //mouth
+        }
+        else if (this.left && this.isjumping) { // Jumping to the left
+            rect(0, -2.5, this.w, this.h - 5); //body
+            rect(-this.w / 2 + 6, 9, 8, 5); //left leg
+            rect(this.w / 2 - 4, 9, 8, 5); //right leg
+            rect(this.w / 2 + 1, 2, 2, 8); //arm
+            fill(0);
+            rect(-this.w / 2 + 6, -5, 6, 6); //eye
+            fill(200);
+            rect(-this.w / 2 + 4, 2, 8, 3); //mouth
         }
         else {
-            rect(this.pos.x + this.w / 2 + 2, this.pos.y + 2, 5, 8);
-            rect(this.pos.x - this.w / 2 - 2, this.pos.y + 2, 5, 8);
+            rect(0, -2.5, this.w, this.h - 5); //body
+            rect(-this.w / 2 + 4, 9, 8, 5); //left leg
+            rect(+this.w / 2 - 4, 9, 8, 5); //right leg
+            rect(-this.w / 2 - 2, 2, 5, 8); //left arm
+            rect(this.w / 2 + 2, 2, 5, 8); //right arm
             fill(0);
-            rect(this.pos.x - this.w / 2 + 5, this.pos.y - 5, 6, 6);
-            rect(this.pos.x + this.w / 2 - 5, this.pos.y - 5, 6, 6);
+            rect(-this.w / 2 + 5, -5, 6, 6); //left eye
+            rect(this.w / 2 - 5, -5, 6, 6); //right eye
         }
         pop();
     }

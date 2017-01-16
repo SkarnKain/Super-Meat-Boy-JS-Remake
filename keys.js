@@ -19,8 +19,7 @@ function keyReleased() {
 }
 
 function keyPressed() {
-    if (key == " " && (!player.isjumping || player.isglidingL || player.isglidingR)) {
-        //player.jumped = true;
+    if (key == " " && (player.isonground || player.isglidingL || player.isglidingR)) {
         jump_bg = frameCount;
     }
     else if (keyCode == RIGHT_ARROW) {

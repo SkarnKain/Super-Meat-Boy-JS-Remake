@@ -1,10 +1,11 @@
 var player;
 var gravity;
-var obsctacles = [];
+var obstacles = [];
 var ground = [];
 var strength_cam, drag_cam, target_cam, force_cam, vel_cam, pos_cam, move_cam;
 var cd_glidingL, cd_glidingR;
 var jump_pression, jump_bg, right_pression, right_bg, left_pression, left_bg;
+var prev_pos_x;
 
 function setup() {
     createCanvas(1200, 600);
@@ -20,12 +21,13 @@ function setup() {
     }
     for (var i = 0; i < 4; i++) {
         obs_x = (i + 2) * 700;
-        obsctacles[i] = new Obstacle(createVector(obs_x, 100), 500, 75, false);
+        obstacles[i] = new Obstacle(createVector(obs_x, 100), 500, 75, "pl");
     }
     for (var i = 4; i < 8; i++) {
         obs_x = 350 + (i - 2) * 700;
-        obsctacles[i] = new Obstacle(createVector(obs_x, 100), 75, 700, true);
+        obstacles[i] = new Obstacle(createVector(obs_x, 100), 75, 700, "kz");
     }
+    obstacles[8] = new Obstacle(createVector(5000, 100), 25, 25, "bg");
 }
 
 function draw() {
@@ -45,60 +47,19 @@ function draw() {
     //
     //
     player.update();
-    if (frameCount > cd_glidingL + 20) {
+    if (frameCount > cd_glidingL + 20 || player.pos.x != prev_pos_x) {
         player.isglidingL = false;
     }
-    if (frameCount > cd_glidingR + 20) {
+    if (frameCount > cd_glidingR + 20 || player.pos.x != prev_pos_x) {
         player.isglidingR = false;
     }
     player.isonground = false;
     player.edges();
-    for (var i = 0; i < obsctacles.length; i++) {
-        obsctacles[i].render();
-        player.hits_obs(obsctacles[i]);
+    for (var i = 0; i < obstacles.length; i++) {
+        obstacles[i].render();
+        player.hits_obs(obstacles[i]);
     }
     player.render();
     player.applied_forces = gravity.copy();
-}
-
-function init_cam() {
-    strength_cam = createVector(0, 0);
-    drag_cam = createVector(0, 0);
-    target_cam = createVector(0, 0);
-    force_cam = createVector(0, 0);
-    vel_cam = createVector(0, 0);
-    pos_cam = createVector(player.pos.x - width / 2, player.pos.y - height / 8);
-    move_cam = 0;
-}
-
-function translate_cam() {
-    if (!player.right && !player.left) {
-        strength_cam.x = 0.01;
-        drag_cam.x = 0.05;
-        target_cam.x = player.pos.x - width / 2;
-    }
-    else if (player.right) {
-        strength_cam.x = 0.05;
-        drag_cam.x = 0.2;
-        target_cam.x = player.pos.x - width / 2 + width / 4;
-    }
-    else if (player.left) {
-        strength_cam.x = 0.05;
-        drag_cam.x = 0.2;
-        target_cam.x = player.pos.x - width / 2 - width / 4;
-    }
-    force_cam.x = (target_cam.x - pos_cam.x) * strength_cam.x;
-    vel_cam.x *= drag_cam.x;
-    vel_cam.x += force_cam.x;
-    pos_cam.x += vel_cam.x;
-    //
-    strength_cam.y = 0.1;
-    drag_cam.y = 0.2;
-    target_cam.y = -player.pos.y + height / 2 - move_cam;
-    force_cam.y = (target_cam.y - pos_cam.y) * strength_cam.y;
-    vel_cam.y *= drag_cam.y;
-    vel_cam.y += force_cam.y;
-    pos_cam.y += vel_cam.y;
-    //
-    translate(-pos_cam.x, pos_cam.y);
+    prev_pos_x = player.pos.x;
 }
