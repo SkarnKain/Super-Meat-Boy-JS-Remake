@@ -1,8 +1,9 @@
-function Obstacle(pos) {
-    this.h = 100;
-    this.w = 25;
+function Obstacle(pos, h, w, kz) {
+    this.h = h;
+    this.w = w;
     this.pos = pos;
-    var lgh = height;
+    this.kz = kz;
+    var lgh = 10000;
     while (this.pos.y <= lgh - this.h / 2) {
         for (var i = 0; i < ground.length; i++) {
             if (this.pos.x >= ground[i].x) {
@@ -12,16 +13,15 @@ function Obstacle(pos) {
         }
         this.pos.y += 1;
     }
-    //    if (this.pos.y > lgh - this.h / 2) {
-    //        this.pos.y = lgh - this.h / 2;
-    //    }
-    //
-    //
-    //
     this.render = function () {
         push();
-        noFill();
-        stroke(255, 0, 0);
+        if (this.kz) {
+            fill(255, 0, 0)
+        }
+        else {
+            fill(255);
+            stroke(255);
+        }
         rect(this.pos.x, this.pos.y, this.w, this.h);
         pop();
     }
