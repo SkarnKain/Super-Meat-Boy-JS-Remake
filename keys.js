@@ -2,6 +2,7 @@ function keyReleased() {
     if (key == " " && jump_bg != Infinity) {
         jump_pression = frameCount - jump_bg;
         player.jumped = true;
+        //jump_bg = Infinity;
     }
     else if (keyCode == RIGHT_ARROW) {
         player.right = false;

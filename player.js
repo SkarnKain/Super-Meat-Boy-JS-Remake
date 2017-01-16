@@ -21,6 +21,7 @@ function Player() {
     //
     this.update = function () {
         if (this.jumped) {
+            console.log(jump_pression);
             if (!this.isjumping && !this.isglidingL && !this.isglidingR) {
                 this.vel.y = 0;
                 this.applied_forces.y += -gravity.y * 4 * jump_pression;
@@ -28,12 +29,12 @@ function Player() {
             else if (this.isglidingL) {
                 this.vel.y = 0;
                 this.applied_forces.x += gravity.y * 6 * jump_pression;
-                this.applied_forces.y += -gravity.y * 4 * jump_pression;
+                this.applied_forces.y += -gravity.y * 4.5 * jump_pression;
             }
             else if (this.isglidingR) {
                 this.vel.y = 0;
                 this.applied_forces.x += -gravity.y * 6 * jump_pression;
-                this.applied_forces.y += -gravity.y * 4 * jump_pression;
+                this.applied_forces.y += -gravity.y * 4.5 * jump_pression;
             }
             this.isjumping = true;
             this.jumped = false;

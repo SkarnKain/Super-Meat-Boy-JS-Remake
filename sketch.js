@@ -59,7 +59,6 @@ function draw() {
     }
     player.render();
     player.applied_forces = gravity.copy();
-    console.log(right_pression, left_pression);
 }
 
 function init_cam() {
