@@ -6,7 +6,17 @@ function G_point(ori_x, ori_y, ori_d, ori_a, dist, angle) {
 }
 
 function ground_render() {
-    for (var i = 0; i < ground.length - 1; i++) {
-        line(ground[i].x, ground[i].y, ground[i + 1].x, ground[i + 1].y);
+//    stroke(150, 100, 50);
+//    for (var i = 0; i < ground.length - 1; i++) {
+//        line(ground[i].x, ground[i].y, ground[i + 1].x, ground[i + 1].y);
+//    }
+    noStroke();
+    fill(150, 100, 50);
+    beginShape();
+    vertex(ground[0].x, 10000);
+    for (var i = 0; i < ground.length; i++) {
+        vertex(ground[i].x, ground[i].y);
     }
+    vertex(ground[ground.length - 1].x, 10000);
+    endShape(CLOSE);
 }

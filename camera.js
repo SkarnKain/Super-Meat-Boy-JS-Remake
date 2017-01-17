@@ -15,12 +15,12 @@ function translate_cam() {
         target_cam.x = player.pos.x - width / 2;
     }
     else if (player.right) {
-        strength_cam.x = 0.05;
+        strength_cam.x = 0.02;
         drag_cam.x = 0.2;
         target_cam.x = player.pos.x - width / 2 + width / 4;
     }
     else if (player.left) {
-        strength_cam.x = 0.05;
+        strength_cam.x = 0.02;
         drag_cam.x = 0.2;
         target_cam.x = player.pos.x - width / 2 - width / 4;
     }

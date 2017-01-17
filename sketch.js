@@ -16,7 +16,10 @@ function setup() {
     ground[0] = new G_point(-100, height - 50, 100, 0, 100, 0);
     for (var i = 1; i < 50; i++) {
         var rand_d = random(50, 200);
-        var rand_a = random(-PI / 6, PI / 6);
+        var rand_a = 0;
+        if (i > 15) {
+            rand_a = random(-PI / 6, PI / 6);
+        }
         ground[i] = new G_point(ground[i - 1].x, ground[i - 1].y, ground[i - 1].d, ground[i - 1].a, rand_d, rand_a);
     }
     for (var i = 0; i < 4; i++) {
@@ -25,14 +28,17 @@ function setup() {
     }
     for (var i = 4; i < 8; i++) {
         obs_x = 350 + (i - 2) * 700;
-        obstacles[i] = new Obstacle(createVector(obs_x, 100), 75, 700, "kz");
+        obstacles[i] = new Obstacle(createVector(obs_x, 100), 75, 700, "spikes");
     }
     obstacles[8] = new Obstacle(createVector(5000, 100), 25, 25, "bg");
+    obstacles[9] = new Obstacle(createVector(100, height - 150), 200, 200, "saw");
+    obstacles[10] = new Obstacle(createVector(1400, height - 100), 200, 200, "saw");
+    obstacles[11] = new Obstacle(createVector(1400, height - 430), 100, 100, "saw");
 }
 
 function draw() {
+    //frameRate(20);
     background(50);
-    stroke(150, 100, 50);
     translate_cam();
     ground_render();
     //
@@ -58,6 +64,7 @@ function draw() {
     for (var i = 0; i < obstacles.length; i++) {
         obstacles[i].render();
         player.hits_obs(obstacles[i]);
+        player.hits_saw(obstacles[i]);
     }
     player.render();
     player.applied_forces = gravity.copy();

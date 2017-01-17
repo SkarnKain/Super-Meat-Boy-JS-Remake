@@ -4,7 +4,7 @@ var lga;
 function Player() {
     this.h = 25;
     this.w = 25;
-    this.pos = createVector(width / 2, 0);
+    this.pos = createVector(width / 2, height - 100);
     this.vel = createVector(0, 0);
     this.applied_forces = gravity.copy();
     this.jumped = false;
@@ -28,28 +28,28 @@ function Player() {
             }
             else if (this.isglidingL) {
                 this.vel.y = 0;
-                this.applied_forces.x += gravity.y * 6 * jump_pression;
+                this.applied_forces.x += gravity.y * 9 * jump_pression;
                 this.applied_forces.y += -gravity.y * 4.5 * jump_pression;
             }
             else if (this.isglidingR) {
                 this.vel.y = 0;
-                this.applied_forces.x += -gravity.y * 6 * jump_pression;
+                this.applied_forces.x += -gravity.y * 9 * jump_pression;
                 this.applied_forces.y += -gravity.y * 4.5 * jump_pression;
             }
             this.isjumping = true;
             this.jumped = false;
         }
         if (this.right && right_pression > 5) {
-            this.applied_forces.x += 0.8 + lga * 0.5;
+            this.applied_forces.x += 1.4 + lga * 0.5;
             this.isglidingL = false;
         }
         if (this.left && left_pression > 5) {
-            this.applied_forces.x += -0.8 + lga * 0.5;
+            this.applied_forces.x += -1.4 + lga * 0.5;
             this.isglidingR = false;
         }
         this.vel.add(this.applied_forces);
         if (!this.isjumping) {
-            var h_friction = 0.9;
+            var h_friction = 0.87;
         }
         else {
             var h_friction = 0.98;
@@ -60,7 +60,7 @@ function Player() {
         }
         else {
             if (this.vel.y <= 0) {
-                var v_friction = 0.95;
+                var v_friction = 1;
             }
             else {
                 var v_friction = 0.7;
@@ -115,10 +115,10 @@ function Player() {
                 console.log("WINNER !!!!!");
                 setup();
             }
-            if (obstacle.type == "kz") {
+            if (obstacle.type == "spikes") {
                 setup();
             }
-            else {
+            else if (obstacle.type == "pl") {
                 var temp_wy = temp_w * temp_dy;
                 var temp_hx = temp_h * temp_dx;
                 if (temp_wy > temp_hx) {
@@ -160,11 +160,20 @@ function Player() {
             }
         }
     }
+    this.hits_saw = function (saw) {
+        if (saw.type == "saw") {
+            var temp_dx = abs(saw.pos.x - this.pos.x) - this.w / 2;
+            var temp_dy = abs(saw.pos.y - this.pos.y) - this.h / 2;
+            if (temp_dx * temp_dx + temp_dy * temp_dy <= ((saw.w / 2) * (saw.w / 2))) {
+                setup();
+            }
+        }
+    }
     this.render = function () {
         push();
-//        noFill();
-//        stroke(255);
-//        rect(this.pos.x, this.pos.y, this.w, this.h); //HIT BOX
+        //        noFill();
+        //        stroke(255);
+        //        rect(this.pos.x, this.pos.y, this.w, this.h); //HIT BOX
         translate(this.pos.x, this.pos.y);
         fill(255, 0, 0);
         noStroke();
