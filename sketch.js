@@ -7,6 +7,7 @@ var cd_glidingL, cd_glidingR;
 var jump_pression, jump_bg, right_pression, right_bg, left_pression, left_bg;
 var prev_pos_x;
 var level_begin, level_end;
+var g_max = 0;
 
 function setup() {
     createCanvas(1200, 600);
@@ -14,8 +15,6 @@ function setup() {
     rectMode(CENTER);
     player = new Player();
     init_cam();
-    level_begin = createVector(0, 0);
-    level_end = createVector(5000, 1000);
     ground[0] = new G_point(-100, height - 50, 100, 0, 100, 0);
     for (var i = 1; i < 50; i++) {
         var rand_d = random(50, 200);
@@ -24,6 +23,9 @@ function setup() {
             rand_a = random(-PI / 6, PI / 6);
         }
         ground[i] = new G_point(ground[i - 1].x, ground[i - 1].y, ground[i - 1].d, ground[i - 1].a, rand_d, rand_a);
+        if (ground[i].y > g_max) {
+            g_max = ground[i].y;
+        }
     }
     for (var i = 0; i < 4; i++) {
         obs_x = (i + 2) * 700;
@@ -35,9 +37,11 @@ function setup() {
     }
     obstacles[8] = new Obstacle(createVector(5000, 100), 25, 25, "bg");
     obstacles[9] = new Obstacle(createVector(100, height - 150), 200, 200, "saw");
-    obstacles[10] = new Obstacle(createVector(1400, height - 100), 200, 200, "saw");
-    obstacles[11] = new Obstacle(createVector(1400, height - 430), 100, 100, "saw");
+    //obstacles[10] = new Obstacle(createVector(1400, height - 100), 200, 200, "saw");
+    //obstacles[11] = new Obstacle(createVector(1400, height - 430), 100, 100, "saw");
     //obstacles[12] = new Obstacle(createVector(500, height - 200), 50, 1000, "pl");
+    level_begin = createVector(0, height - g_max - 50);
+    level_end = createVector(5000, 10000);
 }
 
 function draw() {
