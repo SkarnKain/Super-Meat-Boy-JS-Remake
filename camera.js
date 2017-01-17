@@ -4,30 +4,39 @@ function init_cam() {
     target_cam = createVector(0, 0);
     force_cam = createVector(0, 0);
     vel_cam = createVector(0, 0);
-    pos_cam = createVector(player.pos.x - width / 2, player.pos.y - height / 8);
+    pos_cam = createVector(player.pos.x - width / 2, player.pos.y);
     move_cam = 0;
 }
 
 function translate_cam() {
-    if (!player.right && !player.left) {
-        strength_cam.x = 0.01;
-        drag_cam.x = 0.05;
-        target_cam.x = player.pos.x - width / 2;
-    }
-    else if (player.right) {
-        strength_cam.x = 0.02;
-        drag_cam.x = 0.2;
-        target_cam.x = player.pos.x - width / 2 + width / 4;
-    }
-    else if (player.left) {
-        strength_cam.x = 0.02;
-        drag_cam.x = 0.2;
-        target_cam.x = player.pos.x - width / 2 - width / 4;
-    }
+    //    if (!player.right && !player.left) {
+    //        strength_cam.x = 0.01;
+    //        drag_cam.x = 0.05;
+    //        target_cam.x = player.pos.x - width / 2;
+    //    }
+    //    else if (player.right) {
+    //        strength_cam.x = 0.05;
+    //        drag_cam.x = 0.2;
+    //        target_cam.x = player.pos.x - width / 2 + width / 4;
+    //    }
+    //    else if (player.left) {
+    //        strength_cam.x = 0.05;
+    //        drag_cam.x = 0.2;
+    //        target_cam.x = player.pos.x - width / 2 - width / 4;
+    //    }
+    strength_cam.x = 0.2;
+    drag_cam.x = 0.01;
+    target_cam.x = player.pos.x - width / 2;
     force_cam.x = (target_cam.x - pos_cam.x) * strength_cam.x;
     vel_cam.x *= drag_cam.x;
     vel_cam.x += force_cam.x;
     pos_cam.x += vel_cam.x;
+    if (pos_cam.x < level_begin.x) {
+        pos_cam.x = level_begin.x;
+    }
+    else if (pos_cam.x > level_end.x) {
+        pos_cam.x = level_end.x;
+    }
     //
     strength_cam.y = 0.1;
     drag_cam.y = 0.2;
@@ -36,6 +45,12 @@ function translate_cam() {
     vel_cam.y *= drag_cam.y;
     vel_cam.y += force_cam.y;
     pos_cam.y += vel_cam.y;
+        if (pos_cam.y < level_begin.y) {
+        pos_cam.y = level_begin.y;
+    }
+    else if (pos_cam.y > level_end.y) {
+        pos_cam.y = level_end.y;
+    }
     //
     translate(-pos_cam.x, pos_cam.y);
 }

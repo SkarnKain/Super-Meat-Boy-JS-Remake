@@ -30,29 +30,47 @@ function Player() {
                 this.vel.y = 0;
                 this.applied_forces.x += gravity.y * 9 * jump_pression;
                 this.applied_forces.y += -gravity.y * 4.5 * jump_pression;
+                this.max_h_vel = 999;
             }
             else if (this.isglidingR) {
                 this.vel.y = 0;
                 this.applied_forces.x += -gravity.y * 9 * jump_pression;
                 this.applied_forces.y += -gravity.y * 4.5 * jump_pression;
+                this.max_h_vel = 999;
             }
             this.isjumping = true;
             this.jumped = false;
         }
-        if (this.right && right_pression > 5) {
+        /* GROUND CONTROLE */
+        if (this.right && right_pression > 5 && !this.isglidingR && this.isonground) {
             this.applied_forces.x += 1.4 + lga * 0.5;
             this.isglidingL = false;
         }
-        if (this.left && left_pression > 5) {
+        if (this.left && left_pression > 5 && !this.isglidingL && this.isonground) {
             this.applied_forces.x += -1.4 + lga * 0.5;
             this.isglidingR = false;
         }
+        /* GROUND CONTROLE */
+        //
+        /* AIR CONTROLE */
+        if (this.right && right_pression > 5 && !this.isglidingR && !this.isonground) {
+            this.applied_forces.x += 0.9;
+            this.isglidingL = false;
+        }
+        if (this.left && left_pression > 5 && !this.isglidingL && !this.isonground) {
+            this.applied_forces.x += -0.9;
+            this.isglidingR = false;
+        }
+        /* AIR CONTROLE */
+        //
+        /* AIR CONTROLE */
         this.vel.add(this.applied_forces);
-        if (!this.isjumping) {
+        /* FRICTION */
+        if (this.isonground) {
             var h_friction = 0.87;
         }
         else {
-            var h_friction = 0.98;
+            var h_friction = 0.95;
         }
         this.vel.add(this.applied_forces);
         if (!this.isglidingL & !this.isglidingR) {
@@ -84,6 +102,7 @@ function Player() {
             this.vel.y = this.max_up_vel;
         }
         this.pos.add(this.vel);
+        this.max_h_vel = 15;
     }
     this.edges = function () {
         lgh = 100000;
@@ -220,6 +239,7 @@ function Player() {
             rect(-this.w / 2 + 4, 2, 8, 3); //mouth
         }
         else if (this.right && this.isjumping) { // Jumping to the right
+            rotate(-PI / 20);
             rect(0, -2.5, this.w, this.h - 5); //body
             rect(-this.w / 2 + 4, 9, 8, 5); //left leg
             rect(this.w / 2 - 6, 9, 8, 5); //right leg
@@ -230,6 +250,7 @@ function Player() {
             rect(this.w / 2 - 4, 2, 8, 3); //mouth
         }
         else if (this.left && this.isjumping) { // Jumping to the left
+            rotate(PI / 20);
             rect(0, -2.5, this.w, this.h - 5); //body
             rect(-this.w / 2 + 6, 9, 8, 5); //left leg
             rect(this.w / 2 - 4, 9, 8, 5); //right leg

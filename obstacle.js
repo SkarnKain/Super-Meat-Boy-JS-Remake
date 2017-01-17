@@ -58,7 +58,7 @@ function Obstacle(pos, h, w, type) {
             endShape(CLOSE);
         }
         else if (this.type == "saw") {
-            temp_rot = (frameCount / 25) % TWO_PI;
+            temp_rot = (frameCount / 20) % TWO_PI;
             fill(100);
             translate(this.pos.x, this.pos.y);
             beginShape();
