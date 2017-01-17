@@ -16,7 +16,7 @@ function setup() {
     createCanvas(1200, 700);
     gravity = createVector(0, 0.5);
     rectMode(CENTER);
-    current_level = new Level_contructor(1);
+    current_level = new Level_contructor(3);
     player = new Player(player_init_pos);
     init_cam();
     level_begin_time = new Date().getTime();
@@ -25,7 +25,6 @@ function setup() {
 function draw() {
     //frameRate(20);
     current_time = new Date().getTime();
-    console.log(current_time - level_begin_time)
     background(50);
     translate_cam();
     ground_render();
