@@ -4,33 +4,44 @@ function Obstacle(pos, h, w, type) {
     this.pos = pos;
     this.type = type;
     var lgh = 10000;
-    if (this.type != "saw") {
-        while (this.pos.y <= lgh - this.h / 2) {
-            for (var i = 0; i < ground.length; i++) {
-                if (this.pos.x >= ground[i].x) {
-                    var temp_dist = sqrt((this.pos.x - ground[i].x) * (this.pos.x - ground[i].x) + (this.pos.y + this.h / 2 - ground[i].y) * (this.pos.y + this.h / 2 - ground[i].y));
-                    lgh = ground[i].y + temp_dist * sin(ground[i].a);
-                }
-            }
-            this.pos.y += 1;
-        }
-    }
-    if (this.type == "pl") {
-        this.pos.y += 100;
-    }
+    var temp_move = 0;
+//    if (this.type != "saw") {
+//        while (this.pos.y <= lgh - this.h / 2) {
+//            for (var i = 0; i < ground.length; i++) {
+//                if (this.pos.x >= ground[i].x) {
+//                    var temp_dist = sqrt((this.pos.x - ground[i].x) * (this.pos.x - ground[i].x) + (this.pos.y + this.h / 2 - ground[i].y) * (this.pos.y + this.h / 2 - ground[i].y));
+//                    lgh = ground[i].y + temp_dist * sin(ground[i].a);
+//                }
+//            }
+//            this.pos.y += 1;
+//        }
+//    }
+//    if (this.type == "pl") {
+//        this.pos.y += 100;
+//    }
     //
     //
     this.render = function () {
         push();
         noStroke();
         if (this.type == "bg") {
+            if (frameCount / 120 == round(frameCount / 120)) {
+                temp_move += 1;
+            }
+            temp_move = temp_move % 2;
             fill(255, 140, 190);
             translate(this.pos.x, this.pos.y);
             rect(0, -2.5, this.w, this.h - 5); //body
             rect(-this.w / 2 + 4, 9, 8, 5); //left leg
             rect(+this.w / 2 - 4, 9, 8, 5); //right leg
-            rect(-this.w / 2 - 2, -10, 7, 8); //left arm
-            rect(this.w / 2 + 2, -10, 7, 8); //right arm
+            if (temp_move == 0) {
+                rect(-this.w / 2 - 2, -10, 7, 8); //left arm
+                rect(this.w / 2 + 2, -10, 7, 8); //right arm
+            }
+            else {
+                rect(-this.w / 2 - 2, -2, 7, 8); //left arm
+                rect(this.w / 2 + 2, -2, 7, 8); //right arm
+            }
             fill(0);
             rect(-this.w / 2 + 5, -5, 6, 6); //left eye
             rect(this.w / 2 - 5, -5, 6, 6); //right eye
@@ -113,7 +124,7 @@ function Obstacle(pos, h, w, type) {
             ellipse(0, 0, this.w * 2 / 10);
         }
         else {
-            fill(255);
+            fill(150, 100, 50);
             rect(this.pos.x, this.pos.y, this.w, this.h);
         }
         pop();

@@ -1,10 +1,10 @@
 var lgh;
 var lga;
 
-function Player() {
+function Player(init_pos) {
     this.h = 25;
     this.w = 25;
-    this.pos = createVector(width / 2, height - 100);
+    this.pos = init_pos;
     this.vel = createVector(0, 0);
     this.applied_forces = gravity.copy();
     this.jumped = false;
@@ -12,6 +12,7 @@ function Player() {
     this.isjumping = false;
     this.isglidingL = false;
     this.isglidingR = false;
+    this.istouchobst = false;
     this.right = false;
     this.left = false;
     this.max_h_vel = 15;
@@ -122,6 +123,9 @@ function Player() {
         else {
             lga = 0;
         }
+        if (this.pos.y < level_begin.y - 50 || this.pos.y > level_end.y + 50) {
+            setup();
+        }
     }
     this.hits_obs = function (obstacle) {
         var temp_w = 0.5 * (this.w + obstacle.w);
@@ -138,6 +142,7 @@ function Player() {
                 setup();
             }
             else if (obstacle.type == "pl") {
+                this.istouchobst = true;
                 var temp_wy = temp_w * temp_dy;
                 var temp_hx = temp_h * temp_dx;
                 if (temp_wy > temp_hx) {
@@ -150,7 +155,7 @@ function Player() {
                         // on the right
                         this.vel.x = 0;
                         this.pos.x = obstacle.pos.x - obstacle.w / 2 - this.w / 2;
-                        if (this.right) {
+                        if (this.right && !this.isonground) {
                             this.isglidingR = true;
                             cd_glidingR = frameCount;
                         }
@@ -161,7 +166,7 @@ function Player() {
                         // on the left
                         this.vel.x = 0;
                         this.pos.x = obstacle.pos.x + obstacle.w / 2 + this.w / 2;
-                        if (this.left) {
+                        if (this.left && !this.isonground) {
                             this.isglidingL = true;
                             cd_glidingL = frameCount;
                         }

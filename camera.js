@@ -34,8 +34,8 @@ function translate_cam() {
     if (pos_cam.x < level_begin.x) {
         pos_cam.x = level_begin.x;
     }
-    else if (pos_cam.x > level_end.x) {
-        pos_cam.x = level_end.x;
+    else if (pos_cam.x > level_end.x - width) {
+        pos_cam.x = level_end.x - width;
     }
     //
     strength_cam.y = 0.1;
@@ -48,8 +48,8 @@ function translate_cam() {
         if (pos_cam.y < level_begin.y) {
         pos_cam.y = level_begin.y;
     }
-    else if (pos_cam.y > level_end.y) {
-        pos_cam.y = level_end.y;
+    else if (pos_cam.y > level_end.y - height) {
+        pos_cam.y = level_end.y - height;
     }
     //
     translate(-pos_cam.x, pos_cam.y);

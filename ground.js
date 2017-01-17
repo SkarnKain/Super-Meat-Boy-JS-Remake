@@ -6,10 +6,6 @@ function G_point(ori_x, ori_y, ori_d, ori_a, dist, angle) {
 }
 
 function ground_render() {
-//    stroke(150, 100, 50);
-//    for (var i = 0; i < ground.length - 1; i++) {
-//        line(ground[i].x, ground[i].y, ground[i + 1].x, ground[i + 1].y);
-//    }
     noStroke();
     fill(150, 100, 50);
     beginShape();
