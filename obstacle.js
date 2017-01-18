@@ -1,4 +1,4 @@
-function Obstacle(pos, h, w, type) {
+function Obstacle(pos, w, h, type) {
     this.h = h;
     this.w = w;
     this.pos = pos;

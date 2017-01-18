@@ -15,7 +15,7 @@ function Player(init_pos) {
     this.istouchobst = false;
     this.right = false;
     this.left = false;
-    this.max_h_vel = 15;
+    this.max_h_vel = 12;
     this.max_up_vel = -30;
     this.max_down_vel = 60;
     //
@@ -25,18 +25,18 @@ function Player(init_pos) {
         if (this.jumped) {
             if (!this.isjumping && !this.isglidingL && !this.isglidingR) {
                 this.vel.y = 0;
-                this.applied_forces.y += -gravity.y * 4 * jump_pression;
+                this.applied_forces.y += -gravity.y * 4.2 * jump_pression;
             }
             else if (this.isglidingL) {
                 this.vel.y = 0;
-                this.applied_forces.x += gravity.y * 9 * jump_pression;
-                this.applied_forces.y += -gravity.y * 4.5 * jump_pression;
+                this.applied_forces.x += gravity.y * 3 * jump_pression;
+                this.applied_forces.y += -gravity.y * 5 * jump_pression;
                 this.max_h_vel = 999;
             }
             else if (this.isglidingR) {
                 this.vel.y = 0;
-                this.applied_forces.x += -gravity.y * 9 * jump_pression;
-                this.applied_forces.y += -gravity.y * 4.5 * jump_pression;
+                this.applied_forces.x += -gravity.y * 3 * jump_pression;
+                this.applied_forces.y += -gravity.y * 5 * jump_pression;
                 this.max_h_vel = 999;
             }
             this.isjumping = true;
@@ -44,11 +44,11 @@ function Player(init_pos) {
         }
         /* GROUND CONTROLE */
         if (this.right && right_pression > 5 && !this.isglidingR && this.isonground) {
-            this.applied_forces.x += 1.4 + lga * 0.5;
+            this.applied_forces.x += 0.9 + lga * 0.5;
             this.isglidingL = false;
         }
         if (this.left && left_pression > 5 && !this.isglidingL && this.isonground) {
-            this.applied_forces.x += -1.4 + lga * 0.5;
+            this.applied_forces.x += -0.9 + lga * 0.5;
             this.isglidingR = false;
         }
         /* GROUND CONTROLE */
@@ -103,7 +103,7 @@ function Player(init_pos) {
             this.vel.y = this.max_up_vel;
         }
         this.pos.add(this.vel);
-        this.max_h_vel = 15;
+        this.max_h_vel = 13;
     }
     this.edges = function () {
         lgh = 100000;
@@ -123,7 +123,7 @@ function Player(init_pos) {
         else {
             lga = 0;
         }
-        if (this.pos.y < level_begin.y - 50 || this.pos.y > level_end.y + 50) {
+        if (this.pos.y < level_begin.y - 50 || this.pos.y > level_end.y + 50 || this.pos.x < level_begin.x - 50 || this.pos.x > level_end.x + 50) {
             setup();
         }
     }
@@ -155,7 +155,7 @@ function Player(init_pos) {
                         // on the right
                         this.vel.x = 0;
                         this.pos.x = obstacle.pos.x - obstacle.w / 2 - this.w / 2;
-                        if (this.right && !this.isonground) {
+                        if (/*this.right && */!this.isonground) {
                             this.isglidingR = true;
                             cd_glidingR = frameCount;
                         }
@@ -166,7 +166,7 @@ function Player(init_pos) {
                         // on the left
                         this.vel.x = 0;
                         this.pos.x = obstacle.pos.x + obstacle.w / 2 + this.w / 2;
-                        if (this.left && !this.isonground) {
+                        if (/*this.left && */!this.isonground) {
                             this.isglidingL = true;
                             cd_glidingL = frameCount;
                         }
