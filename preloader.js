@@ -1,5 +1,5 @@
 function preload() {
-    music = loadSound('sounds/Forest Funk.wav');
+    //music = loadSound('sounds/Forest Funk.wav');
     for (var i = 0; i <= 7; i++) {
         sd_meat_death[i] = loadSound('sounds/meat_death' + i + '.wav');
     }

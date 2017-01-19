@@ -16,7 +16,7 @@ function Level_contructor(level) {
         obstacles[2] = new Obstacle(createVector(width, 575), 500, 200, "pl");
         obstacles[3] = new Obstacle(createVector(width / 2 + 50, 375), 300, 100, "pl");
         obstacles[4] = new Obstacle(createVector(width / 2 + 50, 315), 25, 25, "bg");
-        saws[0] = new Saw(createVector(100, 500), 100, 100, createVector(100, 200), 120);
+        saws[0] = new Saw(createVector(100, 500), 100, createVector(100, 200), 120);
         break;
     case 2:
         level_begin = createVector(0, 0);
@@ -27,8 +27,8 @@ function Level_contructor(level) {
         ground[1] = new G_point(ground[0].x, ground[0].y, ground[0].d, ground[0].a, 0, 0);
         var oc = 0;
         var sc = 0;
-        saws[sc++] = new Saw(createVector(150, 100), 200, 200);
-        saws[sc++] = new Saw(createVector(width - 150, 100), 200, 200);
+        saws[sc++] = new Saw(createVector(150, 100), 200);
+        saws[sc++] = new Saw(createVector(width - 150, 100), 200);
         obstacles[oc++] = new Obstacle(createVector(0, 0), 300, 10000, "pl");
         obstacles[oc++] = new Obstacle(createVector(width, 0), 300, 10000, "pl");
         obstacles[oc++] = new Obstacle(createVector(width, height), 700, 200, "pl");
@@ -82,6 +82,26 @@ function Level_contructor(level) {
         obstacles[oc++] = new Obstacle(createVector(width * 3 / 2 + 50, 375), 300, 100, "pl");
         obstacles[oc++] = new Obstacle(createVector(width * 3 / 2 + 50, 315), 25, 25, "bg");
         break;
+    case 5:
+        level_begin = createVector(0, -1150);
+        level_end = createVector(width, 50);
+        player_init_pos = createVector(325, -50);
+        player = new Player(player_init_pos);
+        ground[0] = new G_point(0, 0, 0, 0, 2000, 0);
+        ground[1] = new G_point(ground[0].x, ground[0].y, ground[0].d, ground[0].a, 0, 0);
+        var oc = 0;
+        var sc = 0;
+        obstacles[oc++] = new Obstacle(createVector(0, -1200), 500, 10000, "pl");
+        obstacles[oc++] = new Obstacle(createVector(1200, -1200), 500, 10000, "pl");
+        obstacles[oc++] = new Obstacle(createVector(500, -200), 500, 100, "pl");
+        obstacles[oc++] = new Obstacle(createVector(700, -500), 500, 100, "pl");
+        obstacles[oc++] = new Obstacle(createVector(500, -775), 500, 150, "pl");
+        obstacles[oc++] = new Obstacle(createVector(600, -1150), 1000, 200, "pl");
+        saws[sc++] = new Saw(createVector(650, -230), 100);
+        saws[sc++] = new Saw(createVector(850, -530), 100);
+        saws[sc++] = new Saw(createVector(600, -850), 200)
+        obstacles[oc++] = new Obstacle(createVector(325, -860), 25, 25, "bg");
+        break;
     default:
         player_init_pos = createVector(300, height - 75);
         player = new Player(player_init_pos);
@@ -115,9 +135,9 @@ function Level_contructor(level) {
         obstacles[oc++] = new Obstacle(createVector(600, 375), 50, 50, "pl1");
         obstacles[oc++] = new Obstacle(createVector(600, 325), 50, 50, "pl1");
         obstacles[oc++] = new Obstacle(createVector(5000, 100), 25, 25, "bg");
-        saws[sc++] = new Saw(createVector(100, height - 150), 200, 200);
-        saws[sc++] = new Saw(createVector(1400, height - 100), 200, 200);
-        saws[sc++] = new Saw(createVector(1400, height - 430), 100, 100);
+        saws[sc++] = new Saw(createVector(100, height - 150), 200);
+        saws[sc++] = new Saw(createVector(1400, height - 100), 200);
+        saws[sc++] = new Saw(createVector(1400, height - 430), 100);
         //obstacles[12] = new Obstacle(createVector(500, height - 200), 50, 1000, "pl");
         level_begin = createVector(-100, 0);
         level_end = createVector(5100, g_max);

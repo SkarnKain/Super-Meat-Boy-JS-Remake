@@ -15,7 +15,7 @@ function Player(init_pos) {
     this.istouchobst = false;
     this.right = false;
     this.left = false;
-    this.max_h_vel = 12;
+    this.max_h_vel = 14;
     this.max_up_vel = -30;
     this.max_down_vel = 60;
     this.dead = false;
@@ -193,7 +193,7 @@ function Player(init_pos) {
     this.hits_saw = function (saw) {
         var temp_dx = abs(saw.pos.x - this.pos.x) - this.w / 2;
         var temp_dy = abs(saw.pos.y - this.pos.y) - this.h / 2;
-        if (temp_dx * temp_dx + temp_dy * temp_dy <= ((saw.w / 2) * (saw.w / 2))) {
+        if (temp_dx * temp_dx + temp_dy * temp_dy <= ((saw.size / 2) * (saw.size / 2))) {
             this.dead = true;
             sd_meat_death[floor(random(0, sd_meat_death.length))].play();
             setup();

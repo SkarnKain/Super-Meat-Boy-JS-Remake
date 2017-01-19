@@ -1,7 +1,6 @@
-function Saw(spos, w, h, epos, fr) {
+function Saw(spos, size, epos, fr) {
     this.spos = spos;
-    this.w = w;
-    this.h = h;
+    this.size = size;
     this.pos = spos.copy();
     var change = false;
     var change_fc = frameCount;
@@ -37,7 +36,7 @@ function Saw(spos, w, h, epos, fr) {
         var temp_cd = 1;
         var i = 0;
         while (i < TWO_PI) {
-            var temp_rad = this.w / 2;
+            var temp_rad = this.size / 2;
             if (temp_cd % 2 == 1) {
                 var temp_x = temp_rad * cos(i + temp_rot);
                 var temp_y = temp_rad * sin(i + temp_rot);
@@ -58,7 +57,7 @@ function Saw(spos, w, h, epos, fr) {
         var temp_cd = 1;
         var i = 0;
         while (i < TWO_PI) {
-            var temp_rad = this.w / 2;
+            var temp_rad = this.size / 2;
             if (temp_cd % 2 == 1) {
                 var temp_x = temp_rad * cos(i + temp_rot);
                 var temp_y = temp_rad * sin(i + temp_rot);
@@ -74,15 +73,15 @@ function Saw(spos, w, h, epos, fr) {
         }
         endShape(CLOSE);
         fill(125);
-        ellipse(0, 0, this.w * 7 / 10);
+        ellipse(0, 0, this.size * 7 / 10);
         fill(150);
-        ellipse(0, 0, this.w * 4.5 / 10);
+        ellipse(0, 0, this.size * 4.5 / 10);
         fill(175);
-        ellipse(0, 0, this.w * 4 / 10);
+        ellipse(0, 0, this.size * 4 / 10);
         fill(150);
-        ellipse(0, 0, this.w * 2.5 / 10);
+        ellipse(0, 0, this.size * 2.5 / 10);
         fill(100);
-        ellipse(0, 0, this.w * 2 / 10);
+        ellipse(0, 0, this.size * 2 / 10);
         pop();
     }
 }
