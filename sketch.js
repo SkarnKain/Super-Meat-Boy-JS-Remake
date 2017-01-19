@@ -7,27 +7,37 @@ var bandage_girl;
 var strength_cam, drag_cam, target_cam, force_cam, vel_cam, pos_cam, move_cam, min_cam, max_cam;
 var cd_glidingL, cd_glidingR;
 var jump_pression, jump_bg, right_pression, right_bg, left_pression, left_bg;
-var level = 0;
+var level = 1;
 var level_begin, level_endlevel_begin_time, current_time;
 var g_max = 0;
 var player_init_pos;
 var current_level;
+var sd_meat_death = [];
+var sd_meat_jump = [];
+var sd_meat_landing = [];
+var music;
+var musicplaying = false;
 
 function setup() {
+    if (!musicplaying) {
+        //music.loop();
+        musicplaying = true;
+    }
     obstacles = [];
     ground = [];
     saws = [];
     bandage_girl = null;
-    level = level % 5;
-    level += 1;
     createCanvas(1200, 700);
     frameRate(50);
     gravity = createVector(0, 0.35);
     rectMode(CENTER);
+    //
+    level = level % 5;
+    //
     current_level = new Level_contructor(level);
-    player = new Player(player_init_pos);
-    init_cam();
     level_begin_time = new Date().getTime();
+    player.dead = false;
+    init_cam();
 }
 
 function draw() {
@@ -54,6 +64,7 @@ function draw() {
         player.hits_obs(obstacles[i]);
     }
     for (var i = 0; i < saws.length; i++) {
+        saws[i].update();
         saws[i].render();
         player.hits_saw(saws[i]);
     }

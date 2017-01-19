@@ -21,6 +21,7 @@ function keyReleased() {
 function keyPressed() {
     if (key == " " && (player.isonground || player.isglidingL || player.isglidingR)) {
         jump_bg = frameCount;
+        sd_meat_jump[floor(random(0, sd_meat_jump.length))].play();
     }
     else if (keyCode == RIGHT_ARROW) {
         player.right = true;

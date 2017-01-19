@@ -5,7 +5,8 @@ function Level_contructor(level) {
     case 1:
         level_begin = createVector(0, 0);
         level_end = createVector(width, height);
-        player_init_pos = createVector(100, height - 50)
+        player_init_pos = createVector(100, height - 50);
+        player = new Player(player_init_pos);
         ground[0] = new G_point(0, height - 50, 0, 0, 300, 0);
         ground[1] = new G_point(ground[0].x, ground[0].y, ground[0].d, ground[0].a, 100, -PI / 4);
         ground[2] = new G_point(ground[1].x, ground[1].y, ground[1].d, ground[1].a, 1000, 0);
@@ -15,11 +16,13 @@ function Level_contructor(level) {
         obstacles[2] = new Obstacle(createVector(width, 575), 500, 200, "pl");
         obstacles[3] = new Obstacle(createVector(width / 2 + 50, 375), 300, 100, "pl");
         obstacles[4] = new Obstacle(createVector(width / 2 + 50, 315), 25, 25, "bg");
+        saws[0] = new Saw(createVector(100, 500), 100, 100, createVector(100, 200), 120);
         break;
     case 2:
         level_begin = createVector(0, 0);
         level_end = createVector(width, height);
-        player_init_pos = createVector(240, height - 100)
+        player_init_pos = createVector(240, height - 100);
+        player = new Player(player_init_pos);
         ground[0] = new G_point(0, height - 100, 0, 0, 350, 0);
         ground[1] = new G_point(ground[0].x, ground[0].y, ground[0].d, ground[0].a, 0, 0);
         var oc = 0;
@@ -37,6 +40,7 @@ function Level_contructor(level) {
         level_begin = createVector(0, -1125);
         level_end = createVector(width, height);
         player_init_pos = createVector(350, height - 150);
+        player = new Player(player_init_pos);
         ground[0] = new G_point(0, height + 100, 0, 0, 2000, 0);
         ground[1] = new G_point(ground[0].x, ground[0].y, ground[0].d, ground[0].a, 0, 0);
         var oc = 0;
@@ -60,7 +64,8 @@ function Level_contructor(level) {
     case 4:
         level_begin = createVector(0, 0);
         level_end = createVector(width * 2, height);
-        player_init_pos = createVector(100, height - 50)
+        player_init_pos = createVector(100, height - 50);
+        player = new Player(player_init_pos);
         ground[0] = new G_point(0, 650, 0, 0, 2000, 0);
         ground[1] = new G_point(ground[0].x, ground[0].y, ground[0].d, ground[0].a, 0, 0);
         var oc = 0;
@@ -78,7 +83,8 @@ function Level_contructor(level) {
         obstacles[oc++] = new Obstacle(createVector(width * 3 / 2 + 50, 315), 25, 25, "bg");
         break;
     default:
-        player_init_pos = createVector(300, height - 75)
+        player_init_pos = createVector(300, height - 75);
+        player = new Player(player_init_pos);
         ground[0] = new G_point(-100, height - 50, 100, 0, 100, 0);
         for (var i = 1; i < 50; i++) {
             var rand_d = random(50, 200);

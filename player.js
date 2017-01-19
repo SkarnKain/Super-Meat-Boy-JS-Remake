@@ -18,6 +18,7 @@ function Player(init_pos) {
     this.max_h_vel = 12;
     this.max_up_vel = -30;
     this.max_down_vel = 60;
+    this.dead = false;
     //
     //
     //
@@ -124,6 +125,8 @@ function Player(init_pos) {
             lga = 0;
         }
         if (this.pos.y < level_begin.y - 50 || this.pos.y > level_end.y + 50 || this.pos.x < level_begin.x - 50 || this.pos.x > level_end.x + 50) {
+            this.dead = true;
+            sd_meat_death[floor(random(0, sd_meat_death.length))].play();
             setup();
         }
     }
@@ -135,17 +138,21 @@ function Player(init_pos) {
         if (abs(temp_dx) <= temp_w && abs(temp_dy) <= temp_h) {
             // collision!
             if (obstacle.type == "bg") {
+                level += 1;
                 setup();
             }
             if (obstacle.type == "spikes") {
+                this.dead = true;
+                sd_meat_death[floor(random(0, sd_meat_death.length))].play();
                 setup();
             }
             else {
                 this.istouchobst = true;
                 var temp_wy = temp_w * temp_dy;
-                var temp_hx = temp_h * temp_dx;
-                if (temp_wy > temp_hx) {
-                    if (temp_wy > -temp_hx) {
+                var temp_hx1 = temp_h * (temp_dx - 1);
+                var temp_hx2 = temp_h * (temp_dx + 1);
+                if (temp_wy > temp_hx1) {
+                    if (temp_wy > -temp_hx1) {
                         // at the bottom
                         this.vel.y = 0;
                         this.pos.y = obstacle.pos.y + obstacle.h / 2 + this.h / 2;
@@ -154,18 +161,18 @@ function Player(init_pos) {
                         // on the right
                         this.vel.x = 0;
                         this.pos.x = obstacle.pos.x - obstacle.w / 2 - this.w / 2;
-                        if ( /*this.right && */ !this.isonground) {
+                        if (!this.isonground) {
                             this.isglidingR = true;
                             cd_glidingR = frameCount;
                         }
                     }
                 }
                 else {
-                    if (temp_wy > -temp_hx) {
+                    if (temp_wy > -temp_hx2) {
                         // on the left
                         this.vel.x = 0;
                         this.pos.x = obstacle.pos.x + obstacle.w / 2 + this.w / 2;
-                        if ( /*this.left && */ !this.isonground) {
+                        if (!this.isonground) {
                             this.isglidingL = true;
                             cd_glidingL = frameCount;
                         }
@@ -187,6 +194,8 @@ function Player(init_pos) {
         var temp_dx = abs(saw.pos.x - this.pos.x) - this.w / 2;
         var temp_dy = abs(saw.pos.y - this.pos.y) - this.h / 2;
         if (temp_dx * temp_dx + temp_dy * temp_dy <= ((saw.w / 2) * (saw.w / 2))) {
+            this.dead = true;
+            sd_meat_death[floor(random(0, sd_meat_death.length))].play();
             setup();
         }
     }

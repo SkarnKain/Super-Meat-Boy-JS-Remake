@@ -1,11 +1,32 @@
-function Saw(pos, w, h) {
-    this.h = h;
+function Saw(spos, w, h, epos, fr) {
+    this.spos = spos;
     this.w = w;
-    this.pos = pos;
+    this.h = h;
+    this.pos = spos.copy();
+    var change = false;
+    var change_fc = frameCount;
+    if (epos) {
+        this.epos = epos;
+        this.cycle = fr;
+        var saw_velx = 2 * (this.epos.x - this.spos.x) / this.cycle;
+        var saw_vely = 2 * (this.epos.y - this.spos.y) / this.cycle;
+    }
     var lgh = 10000;
     var temp_move = 0;
     //
     //
+    this.update = function () {
+        if (epos) {
+            if ((this.pos.x == this.epos.x && this.pos.y == this.epos.y) || (this.pos.x == this.spos.x && this.pos.y == this.spos.y) && frameCount > change_fc + 10) {
+                change = true;
+                change_fc = frameCount;
+                saw_velx *= -1;
+                saw_vely *= -1;
+            }
+            this.pos.x += saw_velx;
+            this.pos.y += saw_vely;
+        }
+    }
     this.render = function () {
         push();
         noStroke();
