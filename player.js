@@ -135,13 +135,12 @@ function Player(init_pos) {
         if (abs(temp_dx) <= temp_w && abs(temp_dy) <= temp_h) {
             // collision!
             if (obstacle.type == "bg") {
-                console.log("WINNER !!!!!");
                 setup();
             }
             if (obstacle.type == "spikes") {
                 setup();
             }
-            else if (obstacle.type == "pl") {
+            else {
                 this.istouchobst = true;
                 var temp_wy = temp_w * temp_dy;
                 var temp_hx = temp_h * temp_dx;
@@ -155,7 +154,7 @@ function Player(init_pos) {
                         // on the right
                         this.vel.x = 0;
                         this.pos.x = obstacle.pos.x - obstacle.w / 2 - this.w / 2;
-                        if (/*this.right && */!this.isonground) {
+                        if ( /*this.right && */ !this.isonground) {
                             this.isglidingR = true;
                             cd_glidingR = frameCount;
                         }
@@ -166,7 +165,7 @@ function Player(init_pos) {
                         // on the left
                         this.vel.x = 0;
                         this.pos.x = obstacle.pos.x + obstacle.w / 2 + this.w / 2;
-                        if (/*this.left && */!this.isonground) {
+                        if ( /*this.left && */ !this.isonground) {
                             this.isglidingL = true;
                             cd_glidingL = frameCount;
                         }
@@ -185,12 +184,10 @@ function Player(init_pos) {
         }
     }
     this.hits_saw = function (saw) {
-        if (saw.type == "saw") {
-            var temp_dx = abs(saw.pos.x - this.pos.x) - this.w / 2;
-            var temp_dy = abs(saw.pos.y - this.pos.y) - this.h / 2;
-            if (temp_dx * temp_dx + temp_dy * temp_dy <= ((saw.w / 2) * (saw.w / 2))) {
-                setup();
-            }
+        var temp_dx = abs(saw.pos.x - this.pos.x) - this.w / 2;
+        var temp_dy = abs(saw.pos.y - this.pos.y) - this.h / 2;
+        if (temp_dx * temp_dx + temp_dy * temp_dy <= ((saw.w / 2) * (saw.w / 2))) {
+            setup();
         }
     }
     this.render = function () {

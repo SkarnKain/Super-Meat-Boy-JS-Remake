@@ -5,22 +5,20 @@ function Obstacle(pos, w, h, type) {
     this.type = type;
     var lgh = 10000;
     var temp_move = 0;
-//    if (this.type != "saw") {
-//        while (this.pos.y <= lgh - this.h / 2) {
-//            for (var i = 0; i < ground.length; i++) {
-//                if (this.pos.x >= ground[i].x) {
-//                    var temp_dist = sqrt((this.pos.x - ground[i].x) * (this.pos.x - ground[i].x) + (this.pos.y + this.h / 2 - ground[i].y) * (this.pos.y + this.h / 2 - ground[i].y));
-//                    lgh = ground[i].y + temp_dist * sin(ground[i].a);
-//                }
-//            }
-//            this.pos.y += 1;
-//        }
-//    }
-//    if (this.type == "pl") {
-//        this.pos.y += 100;
-//    }
-    //
-    //
+    if (level == 5 && this.type != "pl1") {
+        while (this.pos.y <= lgh - this.h / 2) {
+            for (var i = 0; i < ground.length; i++) {
+                if (this.pos.x >= ground[i].x) {
+                    var temp_dist = sqrt((this.pos.x - ground[i].x) * (this.pos.x - ground[i].x) + (this.pos.y + this.h / 2 - ground[i].y) * (this.pos.y + this.h / 2 - ground[i].y));
+                    lgh = ground[i].y + temp_dist * sin(ground[i].a);
+                }
+            }
+            this.pos.y += 1;
+        }
+        if (this.type == "pl") {
+            this.pos.y += 100;
+        }
+    }
     this.render = function () {
         push();
         noStroke();
@@ -67,61 +65,6 @@ function Obstacle(pos, w, h, type) {
             vertex(this.w / 2, 0);
             vertex(this.w / 2, this.h / 2);
             endShape(CLOSE);
-        }
-        else if (this.type == "saw") {
-            temp_rot = (frameCount / 20) % TWO_PI;
-            fill(100);
-            translate(this.pos.x, this.pos.y);
-            beginShape();
-            var temp_cd = 1;
-            var i = 0;
-            while (i < TWO_PI) {
-                var temp_rad = this.w / 2;
-                if (temp_cd % 2 == 1) {
-                    var temp_x = temp_rad * cos(i + temp_rot);
-                    var temp_y = temp_rad * sin(i + temp_rot);
-                    vertex(temp_x, temp_y);
-                }
-                else {
-                    var temp_x = 7.5 / 10 * temp_rad * cos(i + temp_rot);
-                    var temp_y = 7.5 / 10 * temp_rad * sin(i + temp_rot);
-                    vertex(temp_x, temp_y);
-                }
-                i += PI / 15;
-                temp_cd += 1;
-            }
-            endShape(CLOSE);
-            temp_rot += PI / 15;
-            fill(150);
-            beginShape();
-            var temp_cd = 1;
-            var i = 0;
-            while (i < TWO_PI) {
-                var temp_rad = this.w / 2;
-                if (temp_cd % 2 == 1) {
-                    var temp_x = temp_rad * cos(i + temp_rot);
-                    var temp_y = temp_rad * sin(i + temp_rot);
-                    vertex(temp_x, temp_y);
-                }
-                else {
-                    var temp_x = 7.5 / 10 * temp_rad * cos(i + temp_rot);
-                    var temp_y = 7.5 / 10 * temp_rad * sin(i + temp_rot);
-                    vertex(temp_x, temp_y);
-                }
-                i += PI / 15;
-                temp_cd += 1;
-            }
-            endShape(CLOSE);
-            fill(125);
-            ellipse(0, 0, this.w * 7 / 10);
-            fill(150);
-            ellipse(0, 0, this.w * 4.5 / 10);
-            fill(175);
-            ellipse(0, 0, this.w * 4 / 10);
-            fill(150);
-            ellipse(0, 0, this.w * 2.5 / 10);
-            fill(100);
-            ellipse(0, 0, this.w * 2 / 10);
         }
         else {
             fill(150, 100, 50);
