@@ -26,19 +26,31 @@ function Player(init_pos) {
         if (this.jumped) {
             if (!this.isjumping && !this.isglidingL && !this.isglidingR) {
                 this.vel.y = 0;
-                this.applied_forces.y += -gravity.y * 4.2 * jump_pression;
+                this.applied_forces.y += -0.9 * jump_pression;
             }
             else if (this.isglidingL) {
                 this.vel.y = 0;
-                this.applied_forces.x += gravity.y * 3 * jump_pression;
-                this.applied_forces.y += -gravity.y * 5 * jump_pression;
                 this.max_h_vel = 999;
+                if (this.right) {
+                    this.applied_forces.x += 1.5 * jump_pression;
+                    this.applied_forces.y += -1.1 * jump_pression;
+                }
+                else {
+                    this.applied_forces.x += 1.2 * jump_pression;
+                    this.applied_forces.y += -1.1 * jump_pression;
+                }
             }
             else if (this.isglidingR) {
                 this.vel.y = 0;
-                this.applied_forces.x += -gravity.y * 3 * jump_pression;
-                this.applied_forces.y += -gravity.y * 5 * jump_pression;
                 this.max_h_vel = 999;
+                if (this.left) {
+                    this.applied_forces.x += -1.5 * jump_pression;
+                    this.applied_forces.y += -1.1 * jump_pression;
+                }
+                else {
+                    this.applied_forces.x += -1.2 * jump_pression;
+                    this.applied_forces.y += -1.1 * jump_pression;
+                }
             }
             this.isjumping = true;
             this.jumped = false;
@@ -69,10 +81,10 @@ function Player(init_pos) {
         this.vel.add(this.applied_forces);
         /* FRICTION */
         if (this.isonground) {
-            var h_friction = 0.87;
+            var h_friction = 0.85;
         }
         else {
-            var h_friction = 0.95;
+            var h_friction = 0.9;
         }
         this.vel.add(this.applied_forces);
         if (!this.isglidingL & !this.isglidingR) {
@@ -80,10 +92,10 @@ function Player(init_pos) {
         }
         else {
             if (this.vel.y <= 0) {
-                var v_friction = 1;
+                var v_friction = 1.02;
             }
             else {
-                var v_friction = 0.7;
+                var v_friction = 0.8;
             }
         }
         this.vel.x *= h_friction;
@@ -124,7 +136,7 @@ function Player(init_pos) {
         else {
             lga = 0;
         }
-        if (this.pos.y < level_begin.y - 50 || this.pos.y > level_end.y + 50 || this.pos.x < level_begin.x - 50 || this.pos.x > level_end.x + 50) {
+        if (this.pos.y > level_begin.y + 50 || this.pos.y < level_end.y - 50 || this.pos.x < level_begin.x - 50 || this.pos.x > level_end.x + 50) {
             this.dead = true;
             sd_meat_death[floor(random(0, sd_meat_death.length))].play();
             setup();
@@ -201,9 +213,9 @@ function Player(init_pos) {
     }
     this.render = function () {
         push();
-        //        noFill();
-        //        stroke(255);
-        //        rect(this.pos.x, this.pos.y, this.w, this.h); //HIT BOX
+//        noFill();
+//        stroke(255);
+//        rect(this.pos.x, this.pos.y, this.w, this.h); //HIT BOX
         translate(this.pos.x, this.pos.y);
         fill(255, 0, 0);
         noStroke();

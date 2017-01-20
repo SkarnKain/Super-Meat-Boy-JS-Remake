@@ -17,6 +17,8 @@ var sd_meat_jump = [];
 var sd_meat_landing = [];
 var music;
 var musicplaying = false;
+var lv_scl = 1;
+var bl_scl = 30;
 
 function setup() {
     if (!musicplaying) {
@@ -27,14 +29,14 @@ function setup() {
     ground = [];
     saws = [];
     bandage_girl = null;
-    createCanvas(1200, 700);
+    createCanvas(1200, 690);
     frameRate(50);
-    gravity = createVector(0, 0.35);
+    gravity = createVector(0, 0.2);
     rectMode(CENTER);
     //
     level = level % 5;
     //
-    level = 5;
+    //level = 1;
     current_level = new Level_contructor(level);
     level_begin_time = new Date().getTime();
     player.dead = false;
@@ -42,6 +44,7 @@ function setup() {
 }
 
 function draw() {
+    scale(lv_scl);
     current_time = new Date().getTime();
     background(50);
     translate_cam();
@@ -91,10 +94,13 @@ function draw() {
 function draw_grid() {
     stroke(255);
     strokeWeight(1);
-    for (i = 0; i <= width / 50; i++) {
-        line(pos_cam.x + width - i * 50, -pos_cam.y, pos_cam.x + width - i * 50, -pos_cam.y + height);
+    for (i = 0; i <= width / bl_scl; i++) {
+        line(pos_cam.x - width / 2 + i * bl_scl + width % bl_scl / 2, pos_cam.y - height / 2, pos_cam.x - width / 2 + i * bl_scl + width % bl_scl / 2, pos_cam.y + height / 2);
     }
-    for (i = 0; i <= height / 50; i++) {
-        line(pos_cam.x, -pos_cam.y + i * 50, pos_cam.x + width, -pos_cam.y + i * 50);
+    for (i = 0; i <= height / bl_scl; i++) {
+        
+        line(pos_cam.x - width / 2, pos_cam.y - height / 2  + i * bl_scl - height % bl_scl / 2, pos_cam.x + width / 2,  pos_cam.y - height / 2  + i * bl_scl - height % bl_scl / 2);
+        
+        line(pos_cam.x, -pos_cam.y + i * bl_scl, pos_cam.x + width, -pos_cam.y + i * bl_scl);
     }
 }
