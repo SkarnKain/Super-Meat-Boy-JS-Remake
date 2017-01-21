@@ -34,9 +34,9 @@ function setup() {
     gravity = createVector(0, 0.2);
     rectMode(CENTER);
     //
-    level = level % 5;
+    level = level % 8;
     //
-    //level = 1;
+    //level = 7;
     current_level = new Level_contructor(level);
     level_begin_time = new Date().getTime();
     player.dead = false;
@@ -88,7 +88,7 @@ function draw() {
     var temp_millisec = floor((current_time - level_begin_time - temp_sec * 1000) / 10);
     //text(temp_sec + " sec. " + temp_millisec, pos_cam.x + width - 50, -pos_cam.y + height - 50);
     text("posx " + player.pos.x + " - posy " + player.pos.y, pos_cam.x + width - 50, -pos_cam.y + height - 50);
-    draw_grid();
+    //draw_grid();
 }
 
 function draw_grid() {
@@ -101,6 +101,6 @@ function draw_grid() {
         
         line(pos_cam.x - width / 2, pos_cam.y - height / 2  + i * bl_scl - height % bl_scl / 2, pos_cam.x + width / 2,  pos_cam.y - height / 2  + i * bl_scl - height % bl_scl / 2);
         
-        line(pos_cam.x, -pos_cam.y + i * bl_scl, pos_cam.x + width, -pos_cam.y + i * bl_scl);
+        //line(pos_cam.x, -pos_cam.y + i * bl_scl, pos_cam.x + width, -pos_cam.y + i * bl_scl);
     }
 }

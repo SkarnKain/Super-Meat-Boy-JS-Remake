@@ -84,7 +84,7 @@ function Player(init_pos) {
             var h_friction = 0.85;
         }
         else {
-            var h_friction = 0.9;
+            var h_friction = 0.97;
         }
         this.vel.add(this.applied_forces);
         if (!this.isglidingL & !this.isglidingR) {
@@ -95,7 +95,7 @@ function Player(init_pos) {
                 var v_friction = 1.02;
             }
             else {
-                var v_friction = 0.8;
+                var v_friction = 0.93;
             }
         }
         this.vel.x *= h_friction;
