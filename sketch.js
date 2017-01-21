@@ -36,6 +36,7 @@ function setup() {
     //
     level = level % 9;
     //
+    level = 9;
     current_level = new Level_contructor(level);
     level_begin_time = new Date().getTime();
     player.dead = false;
