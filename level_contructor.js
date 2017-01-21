@@ -63,6 +63,13 @@ function Level_contructor(level) {
         obstacles[oc++] = new Obstacle(createVector(600, -875), 250, 100, "pl");
         obstacles[oc++] = new Obstacle(createVector(600, 600), 2000, 100, "pl");
         obstacles[oc++] = new Obstacle(createVector(600, -937), 25, 25, "bg");
+        saws[sc++] = new Saw(createVector(300, 700), 100);
+        saws[sc++] = new Saw(createVector(400, 710), 100);
+        saws[sc++] = new Saw(createVector(500, 700), 100);
+        saws[sc++] = new Saw(createVector(600, 710), 100);
+        saws[sc++] = new Saw(createVector(700, 700), 100);
+        saws[sc++] = new Saw(createVector(800, 710), 100);
+        saws[sc++] = new Saw(createVector(900, 700), 100);
         break;
     case 4:
         bl_scl = 30;
@@ -164,6 +171,35 @@ function Level_contructor(level) {
         saws[sc++] = new Saw(createVector(13.2 * bl_scl, -14.5 * bl_scl), 2.5 * bl_scl, createVector(13.2 * bl_scl, -19.5 * bl_scl), 240);
         saws[sc++] = new Saw(createVector(20 * bl_scl, -13.12 * bl_scl), 2 * bl_scl, createVector(16 * bl_scl, -13.12 * bl_scl), 240);
         obstacles[oc++] = new Obstacle(createVector(16.5 * bl_scl, -9.37 * bl_scl), 25, 25, "bg");
+        break;
+    case 8:
+        lv_scl = 1;
+        player_init_pos = createVector(100, -20);
+        player = new Player(player_init_pos);
+        ground[0] = new G_point(0, -100, 0, 0, 11 * bl_scl, 0);
+        for (i = 1; i < 50; i++) {
+            ground[i] = new G_point(ground[i - 1].x, ground[i - 1].y, ground[i - 1].d, ground[i - 1].a, 100, map(i, 0, 50, 0, -PI * 35 / 100));
+        }
+        for (i = 50; i < 80; i++) {
+            ground[i] = new G_point(ground[i - 1].x, ground[i - 1].y, ground[i - 1].d, ground[i - 1].a, 50, map(i, 50, 80, -PI * 35 / 100, 0));
+        }
+        ground[80] = new G_point(ground[79].x, ground[79].y, ground[79].d, ground[79].a, 200, 0);
+        ground[81] = new G_point(ground[80].x, ground[80].y, ground[80].d, ground[80].a, 0, 0);
+        var oc = 0;
+        var sc = 0;
+        for (var i = 0; i < 10; i++) {
+            var sawx = i * ground[ground.length - 1].x / 10 + 10;
+            for (var j = 0; j < ground.length; j++) {
+                if (sawx >= ground[j].x) {
+                    var temp_dist = ground[j].x - sawx;
+                    var lgh = ground[j].y + temp_dist * sin(ground[j].a);
+                }
+            }
+            saws[sc++] = new Saw(createVector(sawx, lgh + 100), 120, createVector(sawx, lgh - 200), 400);
+        }
+        obstacles[oc++] = new Obstacle(createVector(ground[80].x + 100, ground[80].y - 12), 25, 25, "bg");  
+        level_begin = createVector(0, 0);
+        level_end = createVector(ground[81].x + 300, ground[81].y - 200);
         break;
     default:
         bl_scl = 50;

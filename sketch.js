@@ -34,9 +34,8 @@ function setup() {
     gravity = createVector(0, 0.2);
     rectMode(CENTER);
     //
-    level = level % 8;
+    level = level % 9;
     //
-    //level = 7;
     current_level = new Level_contructor(level);
     level_begin_time = new Date().getTime();
     player.dead = false;
@@ -98,9 +97,6 @@ function draw_grid() {
         line(pos_cam.x - width / 2 + i * bl_scl + width % bl_scl / 2, pos_cam.y - height / 2, pos_cam.x - width / 2 + i * bl_scl + width % bl_scl / 2, pos_cam.y + height / 2);
     }
     for (i = 0; i <= height / bl_scl; i++) {
-        
-        line(pos_cam.x - width / 2, pos_cam.y - height / 2  + i * bl_scl - height % bl_scl / 2, pos_cam.x + width / 2,  pos_cam.y - height / 2  + i * bl_scl - height % bl_scl / 2);
-        
-        //line(pos_cam.x, -pos_cam.y + i * bl_scl, pos_cam.x + width, -pos_cam.y + i * bl_scl);
+        line(pos_cam.x - width / 2, pos_cam.y - height / 2 + i * bl_scl - height % bl_scl / 2, pos_cam.x + width / 2, pos_cam.y - height / 2 + i * bl_scl - height % bl_scl / 2);
     }
 }

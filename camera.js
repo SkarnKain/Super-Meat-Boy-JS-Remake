@@ -56,6 +56,5 @@ function translate_cam() {
         pos_cam.y = max_cam.y;
     }
     //
-    console.log(min_cam,max_cam);
     translate(-pos_cam.x + loc_medx, -pos_cam.y + loc_medy);
 }

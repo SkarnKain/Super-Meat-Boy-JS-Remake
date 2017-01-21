@@ -57,11 +57,11 @@ function Player(init_pos) {
         }
         /* GROUND CONTROLE */
         if (this.right && right_pression > 5 && !this.isglidingR && this.isonground) {
-            this.applied_forces.x += 0.9 + lga * 0.5;
+            this.applied_forces.x += 0.9 + lga * 0.8;
             this.isglidingL = false;
         }
         if (this.left && left_pression > 5 && !this.isglidingL && this.isonground) {
-            this.applied_forces.x += -0.9 + lga * 0.5;
+            this.applied_forces.x += -0.9 + lga * 0.8;
             this.isglidingR = false;
         }
         /* GROUND CONTROLE */
