@@ -1,24 +1,30 @@
-var player;
-var gravity;
-var ground = [];
-var obstacles = [];
-var saws = [];
-var bandage_girl;
-var strength_cam, drag_cam, target_cam, force_cam, vel_cam, pos_cam, move_cam, min_cam, max_cam;
-var cd_glidingL, cd_glidingR;
-var jump_pression, jump_bg, right_pression, right_bg, left_pression, left_bg;
-var level = 1;
-var level_begin, level_endlevel_begin_time, current_time;
-var g_max = 0;
-var player_init_pos;
-var current_level;
-var sd_meat_death = [];
-var sd_meat_jump = [];
-var sd_meat_landing = [];
-var music;
-var musicplaying = false;
-var lv_scl = 1;
-var bl_scl = 30;
+var player; /* Single variable to store Player object */
+var gravity; /* Single vector to store gravity */
+var ground = []; /* Array of ground points objects */
+var obstacles = []; /* Array of obstacles objects */
+var saws = []; /* Array of saws objects */
+var bandage_girl; /* NOT YET USED - Single variable to store Bandage Girl object */
+var strength_cam, drag_cam, target_cam, force_cam, vel_cam, pos_cam, move_cam, min_cam, max_cam; /* Camera variables */
+var cd_glidingL, cd_glidingR; /* Countdowns to stop gliding if keys are released */
+var jump_pression; /* Store number of frames the jump key was pressed */
+var jump_bg; /* Store framecount when the jump key was pressed */
+var right_pression, left_pression; /* Store number of frames the right/left key was pressed */
+var right_bg, left_bg; /* Store framecount when right/left key was pressed */
+var level = 1; /* Level counter */
+var level_begin, level_end; /* Single vectors to store positions of level beginning and end */
+var level_begin_time; /* Store time when the current level began */
+var current_time; /* Store current time */
+var g_max = 0; /* For random ground generator ONLY - Store maximum ground height */
+var player_init_pos; /* Single vectors to store SMB spawn position */
+var current_level; /* Store level counter */
+var sd_meat_death = []; /* Array of death sounds */
+var sd_meat_jump = []; /* Array of jump sounds */
+var sd_meat_landing = []; /* Array of landing sounds */
+var music; /* Store music - Not used due to performance issues */
+var musicplaying = false; /* True if music is already playing */
+var lv_scl = 1; /* Level display scaling */
+var bl_scl = 30; /* Bloc scaling - For level construction purpose */
+var loc_medx, loc_medy; /* To store local middle of the screen taking into account level scaling */
 
 function setup() {
     if (!musicplaying) {
@@ -34,9 +40,9 @@ function setup() {
     gravity = createVector(0, 0.2);
     rectMode(CENTER);
     //
-    level = level % 9;
+    level = level % 10;
     //
-    level = 9;
+    //level = 5;
     current_level = new Level_contructor(level);
     level_begin_time = new Date().getTime();
     player.dead = false;
@@ -49,8 +55,6 @@ function draw() {
     background(50);
     translate_cam();
     ground_render();
-    //
-    //
     jump_pression = frameCount - jump_bg;
     left_pression = frameCount - left_bg;
     right_pression = frameCount - right_bg;
@@ -58,8 +62,6 @@ function draw() {
         player.jumped = true;
         jump_bg = Infinity;
     }
-    //
-    //
     player.isonground = false;
     player.istouchobst = false;
     player.edges();
@@ -82,12 +84,13 @@ function draw() {
     player.render();
     player.applied_forces = gravity.copy();
     fill(255);
-    textSize(15);
+    textSize(12);
+    textAlign(LEFT);
+    text("Level " + level, pos_cam.x - loc_medx + 25, pos_cam.y + loc_medy - 25);
     textAlign(RIGHT);
     var temp_sec = floor((current_time - level_begin_time) / 1000);
     var temp_millisec = floor((current_time - level_begin_time - temp_sec * 1000) / 10);
-    //text(temp_sec + " sec. " + temp_millisec, pos_cam.x + width - 50, -pos_cam.y + height - 50);
-    text("posx " + player.pos.x + " - posy " + player.pos.y, pos_cam.x + width - 50, -pos_cam.y + height - 50);
+    text(temp_sec + " sec. " + temp_millisec, pos_cam.x + loc_medx - 25, pos_cam.y + loc_medy - 25);
     //draw_grid();
 }
 

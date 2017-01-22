@@ -5,6 +5,7 @@ function Obstacle(pos, w, h, type) {
     this.type = type;
     var lgh = 10000;
     var temp_move = 0;
+    /* FOR TEST LEVEL ONLY */
     if (level == 0 && this.type != "pl1") {
         while (this.pos.y <= lgh - this.h / 2) {
             for (var i = 0; i < ground.length; i++) {
@@ -19,6 +20,8 @@ function Obstacle(pos, w, h, type) {
             this.pos.y += 100;
         }
     }
+    //
+    //
     this.render = function () {
         push();
         noStroke();

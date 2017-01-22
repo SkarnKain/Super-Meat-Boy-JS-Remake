@@ -24,10 +24,10 @@ function translate_cam() {
     //        drag_cam.x = 0.2;
     //        target_cam.x = player.pos.x - width / 2 - width / 4;
     //    }
-    var loc_medx = width / (2 * lv_scl);
-    var loc_medy = height / (2 * lv_scl);
-    min_cam = createVector(level_begin.x + loc_medx, level_begin.y - loc_medy);
-    max_cam = createVector(level_end.x - loc_medx, level_end.y + loc_medy);
+    loc_medx = width / (2 * lv_scl); /* To calculate local middle width taking into account level scaling */
+    loc_medy = height / (2 * lv_scl); /* To calculate local middle height taking into account level scaling */
+    min_cam = createVector(level_begin.x + loc_medx, level_begin.y - loc_medy); /* To calculate minimum range of the camera */
+    max_cam = createVector(level_end.x - loc_medx, level_end.y + loc_medy); /* To calculate maximum range of the camera */
     strength_cam.x = 0.2;
     drag_cam.x = 0.1;
     target_cam.x = player.pos.x;

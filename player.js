@@ -1,53 +1,54 @@
-var lgh;
-var lga;
+var lgh; /* Local Ground Height */
+var lga; /* Local Ground Angle */
 
 function Player(init_pos) {
-    this.h = 25;
-    this.w = 25;
-    this.pos = init_pos;
-    this.vel = createVector(0, 0);
-    this.applied_forces = gravity.copy();
-    this.jumped = false;
-    this.isonground = false;
-    this.isjumping = false;
-    this.isglidingL = false;
-    this.isglidingR = false;
-    this.istouchobst = false;
-    this.right = false;
-    this.left = false;
-    this.max_h_vel = 14;
-    this.max_up_vel = -30;
-    this.max_down_vel = 60;
-    this.dead = false;
+    this.h = 25; /* SMB height */
+    this.w = 25; /* SMB width */
+    this.pos = init_pos;  /* SMB position */
+    this.vel = createVector(0, 0); /* SMB speed */
+    this.applied_forces = gravity.copy(); /* applied Forces to SMB */
+    this.jumped = false;  /* True if SMB is about to jump (keypressed) */
+    this.isonground = false; /* True if SMB is on the ground or on the top of a platform */
+    this.isjumping = false; /* True if SMB is in the air */
+    this.isglidingL = false; /* True if SMB is gliding on his left side */
+    this.isglidingR = false; /* True if SMB is gliding on his right side */
+    this.istouchobst = false;  /* True if SMB is touching an obstacles */
+    this.right = false; /* True if SMB is going on the right (keypresssed) */
+    this.left = false; /* True if SMB is going on the left (keypresssed) */
+    this.max_h_vel = 13; /* SMB maximum horizontal speed */
+    this.max_up_vel = -30; /* SMB maximum vertical speed while going up */
+    this.max_down_vel = 60; /* SMB maximum vertical speed while going down */
+    this.dead = false; /* True if SMB just died */
     //
     //
     //
     this.update = function () {
+        /* JUMPING */
         if (this.jumped) {
-            if (!this.isjumping && !this.isglidingL && !this.isglidingR) {
+            if (!this.isjumping && !this.isglidingL && !this.isglidingR) { /* Currently on the ground */
                 this.vel.y = 0;
                 this.applied_forces.y += -0.9 * jump_pression;
             }
-            else if (this.isglidingL) {
+            else if (this.isglidingL) { /* Currently sliding on his left side */
                 this.vel.y = 0;
-                this.max_h_vel = 999;
-                if (this.right) {
+                this.max_h_vel = 999; /* To allow more boost for 1 frame */
+                if (this.right) { /* Player pressing right - For long jumps */
                     this.applied_forces.x += 1.5 * jump_pression;
                     this.applied_forces.y += -1.1 * jump_pression;
                 }
-                else {
+                else { /* Player not pressing right - For other situations */
                     this.applied_forces.x += 1.2 * jump_pression;
                     this.applied_forces.y += -1.1 * jump_pression;
                 }
             }
-            else if (this.isglidingR) {
+            else if (this.isglidingR) { /* Currently sliding on his right side */
                 this.vel.y = 0;
-                this.max_h_vel = 999;
-                if (this.left) {
+                this.max_h_vel = 999; /* To allow more boost for 1 frame */
+                if (this.left) { /* Player pressing left - For long jumps */
                     this.applied_forces.x += -1.5 * jump_pression;
                     this.applied_forces.y += -1.1 * jump_pression;
                 }
-                else {
+                else { /* Player not pressing left - For other situations */
                     this.applied_forces.x += -1.2 * jump_pression;
                     this.applied_forces.y += -1.1 * jump_pression;
                 }
@@ -77,7 +78,6 @@ function Player(init_pos) {
         }
         /* AIR CONTROLE */
         //
-        /* AIR CONTROLE */
         this.vel.add(this.applied_forces);
         /* FRICTION */
         if (this.isonground) {
@@ -100,9 +100,11 @@ function Player(init_pos) {
         }
         this.vel.x *= h_friction;
         this.vel.y *= v_friction;
-        if (this.applied_forces.x == 0 && abs(this.vel.x) < 1) {
+        /* FRICTION */
+        if (this.applied_forces.x == 0 && abs(this.vel.x) < 1) { /* Stop SMB if vel < 1 to prevent too much ground sliding */
             this.vel.x = 0;
         }
+        /* CAPING SPEED */
         if (this.vel.x > this.max_h_vel) {
             this.vel.x = this.max_h_vel;
         }
@@ -115,10 +117,11 @@ function Player(init_pos) {
         if (this.vel.y < this.max_up_vel) {
             this.vel.y = this.max_up_vel;
         }
+        /* CAPING SPEED */
         this.pos.add(this.vel);
-        this.max_h_vel = 13;
+        this.max_h_vel = 13; /* Reseting to default value since max_h_vel is set to 999 during the first frame of a glide jump */
     }
-    this.edges = function () {
+    this.edges = function () { /* TESTING COLLISION WITH THE GROUND */
         lgh = 100000;
         for (var i = 0; i < ground.length - 1; i++) {
             if (this.pos.x >= ground[i].x && this.pos.x < ground[i + 1].x) {
@@ -142,7 +145,7 @@ function Player(init_pos) {
             setup();
         }
     }
-    this.hits_obs = function (obstacle) {
+    this.hits_obs = function (obstacle) { /* TESTING COLLISION OBSTACLES (Platforms, BG, spikes and others) */
         var temp_w = 0.5 * (this.w + obstacle.w);
         var temp_h = 0.5 * (this.h + obstacle.h);
         var temp_dx = this.pos.x - obstacle.pos.x;
@@ -202,7 +205,7 @@ function Player(init_pos) {
             }
         }
     }
-    this.hits_saw = function (saw) {
+    this.hits_saw = function (saw) { /* TESTING COLLISION SAWS */
         var temp_dx = abs(saw.pos.x - this.pos.x) - this.w / 2;
         var temp_dy = abs(saw.pos.y - this.pos.y) - this.h / 2;
         if (temp_dx * temp_dx + temp_dy * temp_dy <= ((saw.size / 2) * (saw.size / 2))) {
