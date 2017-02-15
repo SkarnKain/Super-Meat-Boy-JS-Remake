@@ -7,7 +7,7 @@ INCLUDING :
     - Jump's height using keypressed timing
     - Use of force, acceleration, velocity
     - Friction with ground, air, walls
-    - Gliding
+    - Gliding and wall jumps
     - Terrain generator and terrain angle inducing resistance to movement
   - Collision engine (rectangle-rectangle collision with side detection and rectangle-circle collision)
   - Adaptative field of view
