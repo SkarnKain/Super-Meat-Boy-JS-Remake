@@ -1,6 +1,6 @@
 # Super-Meat-Boy-JS-Remake
 
-Remake of Super Meat Boy entirely made with JavaScript
+Remake of Super Meat Boy entirely made with JavaScript using Daniel Shiffman's tutoriels and coding challenge to learn object oriented programming and P5.js
 
 INCLUDING :
   - Self made Super Meat Boy like physics engine, including :
